@@ -1,0 +1,105 @@
+// Program Name: Rural Solar Microgrid Management System
+// Module: PROG101 - Principles of Programming Logic and Design
+// Description: Manages household registration, credit top-up, usage logging, and status reporting for rural microgrids.
+
+Module Main()
+    // Declare Variables
+    Declare Real creditBalance
+    Declare Real powerUsage
+    Declare Integer consumerID
+    Declare Integer menuChoice
+    Declare String consumerName
+
+    // Initialize variables
+    Set creditBalance = 0.0
+    Set powerUsage = 0.0
+    Set menuChoice = 0
+
+    // Display Welcome Header
+    Display "=========================================="
+    Display "   RURAL SOLAR MICROGRID MANAGEMENT SYSTEM"
+    Display "=========================================="
+
+    // Main System Loop
+    While menuChoice <> 5
+        Display ""
+        Display "--- Main Menu ---"
+        Display "1. Register Household"
+        Display "2. Process Credit Top-up"
+        Display "3. Log Energy Usage"
+        Display "4. Generate Status Report"
+        Display "5. Exit System"
+        Input menuChoice
+
+        If menuChoice == 1 Then
+            Call RegisterHousehold(consumerID, consumerName, creditBalance)
+        Else If menuChoice == 2 Then
+            Call TopUpCredit(creditBalance)
+        Else If menuChoice == 3 Then
+            Call LogUsage(creditBalance, powerUsage)
+        Else If menuChoice == 4 Then
+            Call GenerateReport(consumerID, consumerName, creditBalance)
+        Else If menuChoice == 5 Then
+            Display "Exiting system. Thank you for using Solar Microgrid Services."
+        Else
+            Display "Invalid selection. Please choose an option between 1 and 5."
+        End If
+    End While
+End Module
+
+// Module 1: Household Registration
+Module RegisterHousehold(Integer Ref id, String Ref name, Real Ref balance)
+    Display "--- Household Registration ---"
+    Display "Enter Consumer ID number:"
+    Input id
+    Display "Enter Consumer Full Name:"
+    Input name
+    Display "Enter Initial Energy Grant / Credit (kWh):"
+    Input balance
+    Display "Household successfully registered for ID: " & id
+End Module
+
+// Module 2: Credit Top-up
+Module TopUpCredit(Real Ref balance)
+    Declare Real topUpAmount
+    Display "--- Credit Top-up ---"
+    Display "Current Balance: " & balance & " kWh"
+    Display "Enter top-up amount to add (kWh):"
+    Input topUpAmount
+
+    If topUpAmount > 0 Then
+        Set balance = balance + topUpAmount
+        Display "Top-up successful! New Balance: " & balance & " kWh"
+    Else
+        Display "Error: Top-up amount must be greater than zero."
+    End If
+End Module
+
+// Module 3: Usage Logging & Decision Check
+Module LogUsage(Real Ref balance, Real Ref usage)
+    Display "--- Energy Usage Logging ---"
+    Display "Enter energy consumed for this cycle (kWh):"
+    Input usage
+
+    If usage <= balance Then
+        Set balance = balance - usage
+        Display "Usage approved. Energy dispensed."
+        Display "Remaining Credit: " & balance & " kWh"
+    Else
+        Display "DECLINED: Insufficient credit balance for requested usage."
+        Display "Available: " & balance & " kWh | Requested: " & usage & " kWh"
+    End If
+End Module
+
+// Module 4: Status Reporting
+Module GenerateReport(Integer id, String name, Real balance)
+    Display "=========================================="
+    Display "           SYSTEM STATUS REPORT           "
+    Display "=========================================="
+    Display "Consumer ID   : " & id
+    Display "Consumer Name : " & name
+    Display "Credit Balance: " & balance & " kWh"
+    Display "System Status : Active / Operational"
+    Display "SDG 7 Alignment: Clean Energy Access Verified"
+    Display "=========================================="
+End Module
